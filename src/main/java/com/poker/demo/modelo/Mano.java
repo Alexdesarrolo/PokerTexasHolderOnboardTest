@@ -37,7 +37,21 @@ public class Mano {
 			
 			this.cartasMano.add(carta);
 		}
+		ordenarAsc(); // Ordenamos la lista por los valores ascendentemente
 		return true;
+	}
+	
+	public void ordenarAsc() {
+		int longitud = this.cartasMano.size();
+		for(int i = 0; i < longitud; i++) {
+			for(int j = 0; j < longitud-1; j++) {
+				if(Integer.parseInt(this.cartasMano.get(j).getValor()) > Integer.parseInt( this.cartasMano.get(j+1).getValor()) ) {
+					Carta aux = this.cartasMano.get(j);
+					this.cartasMano.set(j, this.cartasMano.get(j+1));
+					this.cartasMano.set(j+1, aux);
+				}
+			}
+		}
 	}
 	
 	

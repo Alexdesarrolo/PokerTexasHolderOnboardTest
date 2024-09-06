@@ -44,8 +44,12 @@ public class PokerControlador {
 		
 		
 		// Validamos las reglas
-		if(validarManoReglas.escaleraReal(mano1) != -1){
+		if(validarManoReglas.esEscaleraReal(mano1) != -1){
 			System.out.println("Es escalera real");
+		}
+		
+		if(validarManoReglas.esEscaleraDeColor(mano2) != -1) {
+			System.out.println("Es escalera de color");
 		}
 		
 		
