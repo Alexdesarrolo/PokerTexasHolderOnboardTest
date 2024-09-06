@@ -7,11 +7,12 @@ public class RespuestaGanador {
 	
 	private String winnerhand;
 	private String winnerHandType;
-	private List<Carta> compositionWinnerHand;
+	//private List<String> compositionWinnerHand;
+	private String compositionWinnerHand[];
 	
 	public RespuestaGanador() {
-		compositionWinnerHand = new ArrayList<>();
-		compositionWinnerHand.add(new Carta("", ""));
+		//compositionWinnerHand = new ArrayList<>();
+		this.compositionWinnerHand = new String[5];
 	}
 	
 	public String getWinnerhand() {
@@ -26,10 +27,18 @@ public class RespuestaGanador {
 	public void setWinnerHandType(String winnerHandType) {
 		this.winnerHandType = winnerHandType;
 	}
-	public List<Carta> getCompositionWinnerHand() {
+	public String[] getCompositionWinnerHand() {
 		return compositionWinnerHand;
 	}
-	public void setCompositionWinnerHand(List<Carta> compositionWinnerHand) {
+	public void setCompositionWinnerHand(String[] compositionWinnerHand) {
+		
+		//Convertimos la lista de cartas del tipo Carta a String
+		/*for(Carta carta: compositionWinnerHand) {
+			carta.convertirDeNumeroALetra(); // volvemos a pasar de números (11 - 14) a letras, si los hay
+			
+			//this.compositionWinnerHand.add(winnerHandType)
+		}*/
+		
 		this.compositionWinnerHand = compositionWinnerHand;
 	}
 	

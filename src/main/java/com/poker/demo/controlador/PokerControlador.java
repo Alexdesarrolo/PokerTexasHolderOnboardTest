@@ -17,12 +17,12 @@ import com.poker.demo.servicio.ValidarManoReglas;
 public class PokerControlador {
 	
 	@PostMapping("/validar")
-	public ResponseEntity<?> validar(@RequestBody HandsRequest manos) {
+	public ResponseEntity<?> validar(@RequestBody HandsRequest manosSolicitud) {
 		RespuestaGanador respuestaGanador = new RespuestaGanador();
 		ValidarManoReglas validarManoReglas = new ValidarManoReglas();
 		
-		String[] listaCartas1 = manos.getHand1().split(" ");
-		String[] listaCartas2 = manos.getHand2().split(" ");
+		String[] listaCartas1 = manosSolicitud.getHand1().split(" ");
+		String[] listaCartas2 = manosSolicitud.getHand2().split(" ");
 		
 		
 			 
@@ -44,13 +44,14 @@ public class PokerControlador {
 		
 		
 		// Validamos las reglas
-		if(validarManoReglas.esEscaleraReal(mano1) != -1){
+		/*if(validarManoReglas.esEscaleraReal(mano1) != -1){
 			System.out.println("Es escalera real");
 		}
 		
 		if(validarManoReglas.esEscaleraDeColor(mano2) != -1) {
 			System.out.println("Es escalera de color");
-		}
+		}*/
+		respuestaGanador = validarManoReglas.validarManoGanadora(mano1, mano2, listaCartas1, listaCartas1);
 		
 		
 		return new ResponseEntity<>(respuestaGanador, HttpStatus.OK);

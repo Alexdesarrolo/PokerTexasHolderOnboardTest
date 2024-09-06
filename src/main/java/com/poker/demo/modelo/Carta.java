@@ -51,14 +51,14 @@ public class Carta {
 		return palosValidos.contains(this.palo);
 	}
 	
-	public void convertirDeNumeroALetra(String valor) {
-		if(valor.equals("11")) {
+	public void convertirDeNumeroALetra() {
+		if(this.valor.equals("11")) {
 			this.valor = "J";
-		}else if(valor.equals("12")) {
+		}else if(this.valor.equals("12")) {
 			this.valor = "Q";
-		}else if(valor.equals("13")) {
+		}else if(this.valor.equals("13")) {
 			this.valor = "K";
-		}else if(valor.equals("14")) {
+		}else if(this.valor.equals("14")) {
 			this.valor = "A";
 		}
 	}

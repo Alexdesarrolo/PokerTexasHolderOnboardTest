@@ -6,9 +6,13 @@ import java.util.List;
 public class Mano {
 	
 	private List<Carta> cartasMano;
+	private String tipoRegla;
+	private int puntaje;
 	
 	public Mano() {
 		this.cartasMano = new ArrayList<>();
+		this.tipoRegla = "";
+		this.puntaje = 0;
 	}
 	
 	public void agregarCarta(Carta carta) {
@@ -21,7 +25,7 @@ public class Mano {
 	
 	public boolean pasarCadenaALista (String[] mano) {
 		for(String cartaM: mano) {
-			//Validamos si es de 3 caracteres la carta
+			
 			int longitud = cartaM.length();
 
 			String valor = cartaM.substring(0, longitud-1);
@@ -41,6 +45,7 @@ public class Mano {
 		return true;
 	}
 	
+	
 	public void ordenarAsc() {
 		int longitud = this.cartasMano.size();
 		for(int i = 0; i < longitud; i++) {
@@ -53,6 +58,21 @@ public class Mano {
 			}
 		}
 	}
-	
+
+	public String getTipoRegla() {
+		return tipoRegla;
+	}
+
+	public void setTipoRegla(String tipoRegla) {
+		this.tipoRegla = tipoRegla;
+	}
+
+	public int getPuntaje() {
+		return puntaje;
+	}
+
+	public void setPuntaje(int puntaje) {
+		this.puntaje = puntaje;
+	}	
 	
 }
