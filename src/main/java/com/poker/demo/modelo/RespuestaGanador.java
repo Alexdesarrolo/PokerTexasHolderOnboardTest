@@ -1,11 +1,11 @@
 package com.poker.demo.modelo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RespuestaGanador {
 	
-	private String winnerhand;
+
+	private String winnerHand;
 	private String winnerHandType;
 	//private List<String> compositionWinnerHand;
 	private String compositionWinnerHand[];
@@ -15,11 +15,11 @@ public class RespuestaGanador {
 		this.compositionWinnerHand = new String[5];
 	}
 	
-	public String getWinnerhand() {
-		return winnerhand;
+	public String getWinnerHand() {
+		return winnerHand;
 	}
-	public void setWinnerhand(String winnerhand) {
-		this.winnerhand = winnerhand;
+	public void setWinnerHand(String winnerhand) {
+		this.winnerHand = winnerhand;
 	}
 	public String getWinnerHandType() {
 		return winnerHandType;
@@ -41,6 +41,4 @@ public class RespuestaGanador {
 		
 		this.compositionWinnerHand = compositionWinnerHand;
 	}
-	
-	
 }

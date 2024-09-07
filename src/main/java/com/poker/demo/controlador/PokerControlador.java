@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.poker.demo.excepciones.Errores;
@@ -14,9 +15,10 @@ import com.poker.demo.modelo.RespuestaGanador;
 import com.poker.demo.servicio.ValidarManoReglas;
 
 @RestController
+@RequestMapping("/poker")
 public class PokerControlador {
 	
-	@PostMapping("/validar")
+	@PostMapping("/validation")
 	public ResponseEntity<?> validar(@RequestBody HandsRequest manosSolicitud) {
 		RespuestaGanador respuestaGanador = new RespuestaGanador();
 		ValidarManoReglas validarManoReglas = new ValidarManoReglas();
@@ -51,7 +53,7 @@ public class PokerControlador {
 		if(validarManoReglas.esEscaleraDeColor(mano2) != -1) {
 			System.out.println("Es escalera de color");
 		}*/
-		respuestaGanador = validarManoReglas.validarManoGanadora(mano1, mano2, listaCartas1, listaCartas1);
+		respuestaGanador = validarManoReglas.validarManoGanadora(mano1, mano2, listaCartas1, listaCartas2);
 		
 		
 		return new ResponseEntity<>(respuestaGanador, HttpStatus.OK);
