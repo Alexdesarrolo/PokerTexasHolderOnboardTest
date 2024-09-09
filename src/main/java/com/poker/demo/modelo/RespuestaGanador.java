@@ -1,5 +1,6 @@
 package com.poker.demo.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RespuestaGanador {
@@ -7,12 +8,12 @@ public class RespuestaGanador {
 
 	private String winnerHand;
 	private String winnerHandType;
-	//private List<String> compositionWinnerHand;
-	private String compositionWinnerHand[];
+	private List<String> compositionWinnerHand;
+	//private String compositionWinnerHand[];
 	
 	public RespuestaGanador() {
-		//compositionWinnerHand = new ArrayList<>();
-		this.compositionWinnerHand = new String[5];
+		compositionWinnerHand = new ArrayList<>();
+		//this.compositionWinnerHand = new String[5];
 	}
 	
 	public String getWinnerHand() {
@@ -27,7 +28,20 @@ public class RespuestaGanador {
 	public void setWinnerHandType(String winnerHandType) {
 		this.winnerHandType = winnerHandType;
 	}
-	public String[] getCompositionWinnerHand() {
+
+	public List<String> getCompositionWinnerHand() {
+		return compositionWinnerHand;
+	}
+
+	public void setCompositionWinnerHand(List<Carta> compositionWinnerHand) {
+		for(Carta carta: compositionWinnerHand) {
+			carta.convertirDeNumeroALetra(); // volvemos a pasar de números (11 - 14) a letras, si los hay
+			this.compositionWinnerHand.add(carta.getValor());
+		}
+		//this.compositionWinnerHand = compositionWinnerHand;
+	}
+	
+	/*public String[] getCompositionWinnerHand() {
 		return compositionWinnerHand;
 	}
 	public void setCompositionWinnerHand(String[] compositionWinnerHand) {
@@ -37,8 +51,10 @@ public class RespuestaGanador {
 			carta.convertirDeNumeroALetra(); // volvemos a pasar de números (11 - 14) a letras, si los hay
 			
 			//this.compositionWinnerHand.add(winnerHandType)
-		}*/
+		}
 		
 		this.compositionWinnerHand = compositionWinnerHand;
-	}
+	}*/
+	
+	
 }

@@ -372,7 +372,7 @@ public class ValidarManoReglas {
 		// Si los puntajes siguen igual la partida es empate
 		if(mano1.getPuntaje() == mano2.getPuntaje()){
 			System.out.println("Quedó Empate ----");
-			ganador.setCompositionWinnerHand(new String[]{"empate"});
+			ganador.setCompositionWinnerHand(List.of());
 			ganador.setWinnerHand("empate");
 			ganador.setWinnerHandType("empate");
 			return ganador;
@@ -381,13 +381,13 @@ public class ValidarManoReglas {
 		// Elegimos la mano ganadora
 		if(mano1.getPuntaje() > mano2.getPuntaje()) {
 			System.out.println("Mano1 " + mano1.getTipoRegla());
-			ganador.setCompositionWinnerHand(listaCartasMano1);
+			ganador.setCompositionWinnerHand(mano1.getCartasMano());
 			ganador.setWinnerHand("hand1");
 			ganador.setWinnerHandType(mano1.getTipoRegla());
 			return ganador;
 		}
 		
-		ganador.setCompositionWinnerHand(listaCartasMano2);
+		ganador.setCompositionWinnerHand(mano2.getCartasMano());
 		ganador.setWinnerHand("hand2");
 		ganador.setWinnerHandType(mano2.getTipoRegla());
 		
