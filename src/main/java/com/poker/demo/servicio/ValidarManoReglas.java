@@ -195,20 +195,89 @@ public class ValidarManoReglas {
 		return false;
 	}
 	
-	public String cartaMasAlta(List<Integer> listaMano1, List<Integer>  listaMano2, Mano mano1, Mano mano2) {
-		for(int i  = 0; i < listaMano1.size(); i++) {
+	public List<Integer> esDoblePar(Mano mano) {
+		Map<String, Integer> valoresIguales = new HashMap<>();
+		List<Integer> valoresCartas = new ArrayList<>();
+		
+		int valorCarta = 0;
+		int contarPares = 0;
+		for(Carta carta: mano.getCartasMano()) {
+			if(valoresIguales.containsKey(carta.getValor())){ // Si ya existe en el diccionario le sumamos +1
+				
+				valorCarta = Integer.parseInt(carta.getValor());
+				valoresIguales.put(carta.getValor(), valoresIguales.get(carta.getValor()) + 1);
+			}else {
+				valoresIguales.put(carta.getValor(), 1);
+			}
+		}
+		
+		for(Map.Entry<String, Integer> elemento: valoresIguales.entrySet()) { // validamos si en diccionario los pares
+			String valor = elemento.getKey();
+			
+			if(valoresIguales.get(valor) == 2) {
+				contarPares++;
+				valorCarta = valorCarta > Integer.parseInt(valor) ? Integer.parseInt(valor) : valorCarta;
+			}
+			valoresCartas.add(Integer.parseInt(valor));
+		}
+		
+		if(contarPares == 2) {
+			mano.setPuntaje(60 + valorCarta);
+			return valoresCartas;
+		}
+		
+		return new ArrayList<>();
+	}
+	
+	public List<Integer> esUnPar(Mano mano) {
+		Map<String, Integer> valoresIguales = new HashMap<>();
+		List<Integer> valoresCartas = new ArrayList<>();
+		
+		int valorCarta = 0;
+		int contarPares = 0;
+		for(Carta carta: mano.getCartasMano()) {
+			if(valoresIguales.containsKey(carta.getValor())){ // Si ya existe en el diccionario le sumamos +1
+				
+				valorCarta = Integer.parseInt(carta.getValor());
+				valoresIguales.put(carta.getValor(), valoresIguales.get(carta.getValor()) + 1);
+			}else {
+				valoresIguales.put(carta.getValor(), 1);
+			}
+		}
+		
+		for(Map.Entry<String, Integer> elemento: valoresIguales.entrySet()) { 
+			String valor = elemento.getKey();
+			
+			if(valoresIguales.get(valor) == 2) {
+				contarPares++;
+				valorCarta = Integer.parseInt(valor);
+			}
+			valoresCartas.add(Integer.parseInt(valor));
+		}
+		
+		if(contarPares == 1 && valoresCartas.size() == 4) {
+			mano.setPuntaje(40 + valorCarta);
+			return valoresCartas;
+		}
+		
+		return new ArrayList<>();
+	}
+	
+	public void cartaMasAlta(List<Integer> listaMano1, List<Integer>  listaMano2, Mano mano1, Mano mano2) {
+		for(int i  = listaMano1.size()-1; i >= 0; i--) {
+			
 			int valorCartaMano1 = listaMano1.get(i);
 			int valorCartaMano2 = listaMano2.get(i);
+			System.out.println("---> " + valorCartaMano1);
 			System.out.println("--> " + listaMano1.get(i) + " --> " + listaMano2.get(i));
 			if(valorCartaMano1 > valorCartaMano2) {
 				mano1.setPuntaje(mano1.getPuntaje() + valorCartaMano1);
-				return "mano1";
+				return;
 			}else if (valorCartaMano1 < valorCartaMano2) {
 				mano2.setPuntaje(mano2.getPuntaje() + valorCartaMano1);
-				return "mano2";
+				return;
 			}
 		}
-		return "empate"; // Si llega aquí la partida es empate 
 	}
 	
 	public RespuestaGanador validarManoGanadora(Mano mano1, Mano mano2, String[] listaCartasMano1, String[] listaCartasMano2) {
@@ -220,11 +289,11 @@ public class ValidarManoReglas {
 		List<Integer> valoresEscaleraMano1 = null;
 		List<Integer> valoresEscaleraMano2 = null;
 		
-		List<Integer> valoresParMano1= null;
-		List<Integer> valoresParMano2= null;
+		List<Integer> valoresParMano1 = esUnPar(mano1);
+		List<Integer> valoresParMano2 = esUnPar(mano2);
 		
-		List<Integer> valoresDobleParMano1= null;
-		List<Integer> valoresDobleParMano2= null;
+		List<Integer> valoresDobleParMano1= esDoblePar(mano1);
+		List<Integer> valoresDobleParMano2= esDoblePar(mano2);
 		
 		RespuestaGanador ganador = new RespuestaGanador();
 		
@@ -233,9 +302,8 @@ public class ValidarManoReglas {
 			mano1.setTipoRegla("RoyalFlush");
 		}else if(esEscaleraDeColor(mano1)) {
 			mano1.setTipoRegla("StraightFlush");
-			System.out.println("Escalera de color");
 		}else if(esPoker(mano1)) {
-			mano1.setTipoRegla("poker");
+			mano1.setTipoRegla("FourOfAKind");
 		}else if(esFullHouse(mano1)) {
 			mano1.setTipoRegla("FullHouse");
 		}else if(esMismoPalo(mano1)) { // Verifica la regla color
@@ -247,6 +315,13 @@ public class ValidarManoReglas {
 			mano1.setTipoRegla("Straight"); 
 		}else if (esTrio(mano1)) {
 			mano1.setTipoRegla("ThreeOfAKind");
+		}else if(valoresDobleParMano1.size() != 0) { // Verifica la regla doble par
+			mano1.setTipoRegla("TwoPair");
+		}else if(valoresParMano1.size() != 0) { // Verifica la regla un par
+			mano1.setTipoRegla("OnePair");
+		}else { // carta más alta
+			mano1.setTipoRegla("HighCard");
+			mano1.setPuntaje(10);
 		}
 		
 		// Validamos mano 2
@@ -255,18 +330,29 @@ public class ValidarManoReglas {
 		}else if(esEscaleraDeColor(mano2)) {
 			mano2.setTipoRegla("StraightFlush");
 		}else if(esPoker(mano2)) {
-			mano2.setTipoRegla("poker");
+			mano2.setTipoRegla("FourOfAKind");
 		}else if(esFullHouse(mano2)) {
 			mano2.setTipoRegla("Full House");
 		}else if(esMismoPalo(mano2)) { // Valida la regla de color
-			
 			valoresColorMano2 = esColor(mano2);
 			mano2.setTipoRegla("Flush"); 
-			System.out.println("Flush 2");
-			System.out.println("Tamaño " + valoresColorMano2.size());
 		}else if(esValoresConsecutivos(mano2)) { // Verifica la regla escalera
 			valoresEscaleraMano2 = esEscalera(mano2);
 			mano2.setTipoRegla("Straight"); 
+		}else if(valoresDobleParMano2.size() != 0) { // Verifica la regla doble par
+			mano2.setTipoRegla("TwoPair");
+		}else if(valoresParMano2.size() != 0) { // Verifica la regla un par
+			mano2.setTipoRegla("OnePair");
+		}else { // carta más alta
+			mano2.setTipoRegla("HighCard");
+			mano2.setPuntaje(10);
+		}
+		
+		// Validamos si las dos manos tienen la regla de la carta más alta
+		if(mano1.getTipoRegla().equals("HighCard") && mano2.getTipoRegla().equals("HighCard")) {
+			List<Integer> cartasMano1 = devolverValores(mano1);
+			List<Integer> cartasMano2 = devolverValores(mano2);
+			cartaMasAlta(cartasMano1, cartasMano2, mano1, mano2);
 		}
 		
 		// Validamos si algún empate que se pueda desempatar
@@ -276,6 +362,10 @@ public class ValidarManoReglas {
 				cartaMasAlta(valoresEscaleraMano1, valoresColorMano2, mano1, mano2);
 			}else if(mano1.getTipoRegla().equals("Straight")) {				
 				cartaMasAlta(valoresEscaleraMano2, valoresEscaleraMano2, mano1, mano2);
+			}else if(mano1.getTipoRegla().equals("TwoPair")) {				
+				cartaMasAlta(valoresDobleParMano1, valoresDobleParMano2, mano1, mano2);
+			}else if(mano1.getTipoRegla().equals("OnePair")) {				
+				cartaMasAlta(valoresParMano1, valoresParMano2, mano1, mano2);
 			}
 		}
 		
@@ -287,7 +377,6 @@ public class ValidarManoReglas {
 			ganador.setWinnerHandType("empate");
 			return ganador;
 		}
-		
 		
 		// Elegimos la mano ganadora
 		if(mano1.getPuntaje() > mano2.getPuntaje()) {
@@ -307,7 +396,5 @@ public class ValidarManoReglas {
 	
 	public int esEmpate(Mano mano1, Mano mano2) {
 		return 0;
-	}
-	
-	
+	}	
 }
