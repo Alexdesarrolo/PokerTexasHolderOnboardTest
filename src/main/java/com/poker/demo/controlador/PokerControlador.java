@@ -19,8 +19,9 @@ import com.poker.demo.servicio.ValidarManoReglas;
 @RequestMapping("/poker")
 public class PokerControlador {
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public ResponseEntity<?> saludo(){
+		System.out.println("Hola");
 		return new ResponseEntity<>("Hola. Es una prueba", HttpStatus.OK);
 	}
 	@PostMapping("/validation")
