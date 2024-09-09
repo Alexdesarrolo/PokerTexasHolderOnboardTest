@@ -2,6 +2,7 @@ package com.poker.demo.controlador;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,10 @@ import com.poker.demo.servicio.ValidarManoReglas;
 @RequestMapping("/poker")
 public class PokerControlador {
 	
+	@GetMapping("/")
+	public ResponseEntity<?> saludo(){
+		return new ResponseEntity<>("Hola. Es una prueba", HttpStatus.OK);
+	}
 	@PostMapping("/validation")
 	public ResponseEntity<?> validar(@RequestBody HandsRequest manosSolicitud) {
 		RespuestaGanador respuestaGanador = new RespuestaGanador();
@@ -25,9 +30,6 @@ public class PokerControlador {
 		
 		String[] listaCartas1 = manosSolicitud.getHand1().split(" ");
 		String[] listaCartas2 = manosSolicitud.getHand2().split(" ");
-		
-		
-			 
 		
 		if(listaCartas1.length != 5 || listaCartas2.length != 5) {
 			
@@ -54,8 +56,7 @@ public class PokerControlador {
 			System.out.println("Es escalera de color");
 		}*/
 		respuestaGanador = validarManoReglas.validarManoGanadora(mano1, mano2, listaCartas1, listaCartas2);
-		
-		
+			
 		return new ResponseEntity<>(respuestaGanador, HttpStatus.OK);
 	}
 }
